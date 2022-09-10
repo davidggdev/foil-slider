@@ -28,7 +28,7 @@ currently available in [3.x](https://releases.jquery.com/)
 
 You must include/copy the plugin, which is currently located in the directory
 
-    yas-slider/foil-slider.js
+    foil-slider/foil-slider.js
   
 Finally, the css file must be linked/copy:
 
