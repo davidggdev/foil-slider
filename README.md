@@ -1,5 +1,7 @@
 # Foil slider
 
+![snapshot](http://davidggdev.es/images/snapshot_03.jpg)
+
 This slider is designed to display three elements as a mini-catalog or 
 mode/game selector/...
 
@@ -65,8 +67,6 @@ Then in our javascript we will create the instance:
     $('.my-slider').foilSlider({});
 });
 ```
-
-![snapshot](http://davidggdev.es/images/snapshot_03.jpg)
 
 ## Authors
 
