@@ -18,6 +18,8 @@ Currently it only works with one instance.
 This software is in a fully alpha version and its stability, performance or 
 side effects is not assured.
 
+# Updates
+
 ![](https://img.shields.io/badge/UPDATE-2022/09/11-red?style=for-the-badge) 
 ![](https://img.shields.io/badge/Alpha_1_init-2022/09/11-red?style=for-the-badge&logo=esbuild&labelColor=1e485a&logoColor=white) 
  
