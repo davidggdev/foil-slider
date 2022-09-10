@@ -3,6 +3,10 @@
 This slider is designed to display three elements as a mini-catalog or 
 mode/game selector/...
 
+It also works with mobile events. To operate just click on the white icon 
+or in mobile version scroll your finger from the center to the right
+to activate the scrolling.
+
 [Example online](https://davidggdev.es/workbench/foil/)
 
 PAY ATTENTION
