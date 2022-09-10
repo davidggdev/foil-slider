@@ -68,6 +68,15 @@ Then in our javascript we will create the instance:
 });
 ```
 
+## Contributros
+
+My biggest thanks to [MbSaku](https://github.com/MbSaku) for allowing me use his
+media for the creation of the cards as a game selector
+idea at [Dethquest](http://dethquest.com/index.php) 
+
+You are already late to go and register and enjoy the best web based tabletop 
+rpg game engine out there!
+
 ## Authors
 
   - **David González** - *davidggdev@davidggdev.es*
