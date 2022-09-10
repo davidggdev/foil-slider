@@ -1,0 +1,156 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #0e0c0f;
+}
+
+// Tools
+.p-center-all {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(.5);
+}
+
+
+
+$bkg-foil-color: rgb(61 103 132 / 100%);
+$foil-width: 293px;
+$foil-height: 472px;
+
+.foil-slider {
+    width: 500px;
+    height: 400px;
+    .foil-slide {
+        position: absolute;
+        width: $foil-width;
+        height: $foil-height; 
+        overflow: hidden;
+        cursor: pointer;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        transition: all 0.333s ease;
+        &.-left {
+            top: 50%;
+            left: 50%;
+            transform: translate(-100%, -30%) scale(0.8);  
+            z-index: 5;
+            filter: brightness(0.4); 
+            transition: all 0.333s ease;
+            &:hover {
+                transform: translate(-100%, -30%) scale(0.9) rotate(-5deg); 
+            }
+        }
+        &.-center {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            z-index: 10;
+            filter: brightness(1); 
+            transition: all 0.333s ease;
+            &:hover {
+                transform: translate(-50%, -45%) scale(1.1);
+              
+            }
+        }
+        &.-right {
+            top: 50%;
+            left: 50%;
+            transform: translate(0%, -30%) scale(0.8); 
+            z-index: 5;
+            filter: brightness(0.4); 
+            &:hover {
+                transform: translate(0%, -30%) scale(0.9) rotate(5deg); 
+            }
+        }
+        &.-play-1,
+        &.-play-2,
+        &.-play-3{
+            animation-fill-mode: forwards;
+            animation-timing-function: linear;
+            animation-duration: 1s;
+            pointer-events: none;
+        }
+        &.-play-1 {
+            animation-name: left-animation-to-right; 
+        }
+        &.-play-2 {
+            animation-name: center-animation-to-right; 
+        }
+        &.-play-3 {
+            animation-name: right-animation-to-right; 
+        }
+        img {
+            transition: all 0.333s ease; 
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            max-width: 100%;
+            height: auto;
+        }
+    }
+}
+
+.turn{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    background-image: url("turn.png");
+    background-size: cover;
+    background-position: center;
+    top: 140%;
+    left: 40%;
+}
+@keyframes left-animation-to-right {
+    0% {
+        transform: translate(-100%, -30%) scale(0.8);
+    }
+    50% {
+        z-index: 10;
+        transform: translate(-95%, -45%) scale(0.9) rotate(-8deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        z-index: 10;
+        filter: brightness(1);
+    }
+}
+
+@keyframes center-animation-to-right {
+    0% {
+        transform: translate(-50%, -50%);
+    }
+    50% {
+        transform: translate(50%, -40%) rotate(8deg);
+        z-index: 5;
+    }
+    100% {
+        transform: translate(0%, -30%) scale(0.8);
+        z-index: 5;
+        filter: brightness(.4);
+    }
+}
+
+@keyframes right-animation-to-right {
+    0% {
+        transform: translate(0%, -30%) scale(0.8);
+    }
+
+    50% {
+        transform: translate(-50%, -35%) scale(0.6) rotate(8deg);
+    }
+    100% {
+        transform: translate(-100%, -30%) scale(0.8);
+    }
+}

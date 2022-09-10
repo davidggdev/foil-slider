@@ -1,0 +1,189 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #0e0c0f;
+}
+
+.p-center-all {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+.foil-slider {
+  width: 500px;
+  height: 400px;
+}
+.foil-slider .foil-slide {
+  position: absolute;
+  width: 293px;
+  height: 472px;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transition: all 0.333s ease;
+}
+.foil-slider .foil-slide.-left {
+  top: 50%;
+  left: 50%;
+  transform: translate(-100%, -30%) scale(0.8);
+  z-index: 5;
+  filter: brightness(0.4);
+  transition: all 0.333s ease;
+}
+.foil-slider .foil-slide.-left:hover {
+  transform: translate(-100%, -30%) scale(0.9) rotate(-5deg);
+}
+.foil-slider .foil-slide.-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  filter: brightness(1);
+  transition: all 0.333s ease;
+}
+.foil-slider .foil-slide.-center:hover {
+  transform: translate(-50%, -45%) scale(1.1);
+}
+.foil-slider .foil-slide.-right {
+  top: 50%;
+  left: 50%;
+  transform: translate(0%, -30%) scale(0.8);
+  z-index: 5;
+  filter: brightness(0.4);
+}
+.foil-slider .foil-slide.-right:hover {
+  transform: translate(0%, -30%) scale(0.9) rotate(5deg);
+}
+.foil-slider .foil-slide.-play-1, .foil-slider .foil-slide.-play-2, .foil-slider .foil-slide.-play-3 {
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  pointer-events: none;
+}
+.foil-slider .foil-slide.-play-1 {
+  -webkit-animation-name: left-animation-to-right;
+          animation-name: left-animation-to-right;
+}
+.foil-slider .foil-slide.-play-2 {
+  -webkit-animation-name: center-animation-to-right;
+          animation-name: center-animation-to-right;
+}
+.foil-slider .foil-slide.-play-3 {
+  -webkit-animation-name: right-animation-to-right;
+          animation-name: right-animation-to-right;
+}
+.foil-slider .foil-slide img {
+  transition: all 0.333s ease;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  max-width: 100%;
+  height: auto;
+}
+
+.turn {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  background-image: url("turn.png");
+  background-size: cover;
+  background-position: center;
+  top: 140%;
+  left: 40%;
+}
+
+@-webkit-keyframes left-animation-to-right {
+  0% {
+    transform: translate(-100%, -30%) scale(0.8);
+  }
+  50% {
+    z-index: 10;
+    transform: translate(-95%, -45%) scale(0.9) rotate(-8deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 10;
+    filter: brightness(1);
+  }
+}
+
+@keyframes left-animation-to-right {
+  0% {
+    transform: translate(-100%, -30%) scale(0.8);
+  }
+  50% {
+    z-index: 10;
+    transform: translate(-95%, -45%) scale(0.9) rotate(-8deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 10;
+    filter: brightness(1);
+  }
+}
+@-webkit-keyframes center-animation-to-right {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(50%, -40%) rotate(8deg);
+    z-index: 5;
+  }
+  100% {
+    transform: translate(0%, -30%) scale(0.8);
+    z-index: 5;
+    filter: brightness(0.4);
+  }
+}
+@keyframes center-animation-to-right {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(50%, -40%) rotate(8deg);
+    z-index: 5;
+  }
+  100% {
+    transform: translate(0%, -30%) scale(0.8);
+    z-index: 5;
+    filter: brightness(0.4);
+  }
+}
+@-webkit-keyframes right-animation-to-right {
+  0% {
+    transform: translate(0%, -30%) scale(0.8);
+  }
+  50% {
+    transform: translate(-50%, -35%) scale(0.6) rotate(8deg);
+  }
+  100% {
+    transform: translate(-100%, -30%) scale(0.8);
+  }
+}
+@keyframes right-animation-to-right {
+  0% {
+    transform: translate(0%, -30%) scale(0.8);
+  }
+  50% {
+    transform: translate(-50%, -35%) scale(0.6) rotate(8deg);
+  }
+  100% {
+    transform: translate(-100%, -30%) scale(0.8);
+  }
+}/*# sourceMappingURL=style.css.map */
