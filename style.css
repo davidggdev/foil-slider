@@ -14,10 +14,16 @@ body {
   left: 50%;
   transform: translate(-50%, -50%) scale(0.5);
 }
+.p-center-all.a {
+  left: 180px;
+}
+.p-center-all.b {
+  left: 660px;
+}
 
 .foil-slider {
-  width: 500px;
-  height: 400px;
+  width: 100%;
+  height: 100%;
 }
 .foil-slider .foil-slide {
   position: absolute;
@@ -30,7 +36,6 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  transition: all 0.333s ease;
 }
 .foil-slider .foil-slide.-left {
   top: 50%;
@@ -38,7 +43,6 @@ body {
   transform: translate(-100%, -30%) scale(0.8);
   z-index: 5;
   filter: brightness(0.4);
-  transition: all 0.333s ease;
 }
 .foil-slider .foil-slide.-left:hover {
   transform: translate(-100%, -30%) scale(0.9) rotate(-5deg);
@@ -49,7 +53,6 @@ body {
   transform: translate(-50%, -50%);
   z-index: 10;
   filter: brightness(1);
-  transition: all 0.333s ease;
 }
 .foil-slider .foil-slide.-center:hover {
   transform: translate(-50%, -45%) scale(1.1);
@@ -69,8 +72,6 @@ body {
           animation-fill-mode: forwards;
   -webkit-animation-timing-function: linear;
           animation-timing-function: linear;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
   pointer-events: none;
 }
 .foil-slider .foil-slide.-play-1 {
@@ -86,7 +87,6 @@ body {
           animation-name: right-animation-to-right;
 }
 .foil-slider .foil-slide img {
-  transition: all 0.333s ease;
   -webkit-user-drag: none;
   -khtml-user-drag: none;
   -moz-user-drag: none;
@@ -100,12 +100,23 @@ body {
   width: 100px;
   height: 100px;
   position: absolute;
-  top: 50%;
+  top: 340px;
+  left: -50px;
+  border-radius: 100%;
+  background: rgba(100, 100, 100, 0.25);
+  cursor: pointer;
+}
+.turn:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   background-image: url("turn.png");
-  background-size: cover;
+  background-size: 70%;
   background-position: center;
-  top: 140%;
-  left: 40%;
+  background-repeat: no-repeat;
 }
 
 @-webkit-keyframes left-animation-to-right {

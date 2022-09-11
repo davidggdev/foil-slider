@@ -9,7 +9,7 @@
 
     $.fn.foilSlider = function (options) {
         let _this = this;
-        let _foil_slider = new FoilSlider(options);
+        let _foil_slider = new FoilSlider(this, options);
         try {
             if (!_foil_slider)
                 throw new Error('Something goes very wrong');
@@ -44,17 +44,20 @@ class FoilSlider {
     /** Position Y on touch */
     _foil_initialY = null;
 
+    _foil_instance_id = "";
+
     /**
      * Initiates and calls the creation of elements necessary to execute the slider.
      * @param {object} options Collection of available options 
      * @returns bool
      */
-    constructor(options) {
+    constructor(element,options) {
         try {
             this._foil_timer = ms => new Promise(res => setTimeout(res, ms));
             this._foil_options = options;
-            this._foil_e_content = $("[foil-slider]");
-            $(this._foil_e_content).addClass("foil-slider");
+            this._foil_instance_id = this.makeid(5);          
+            this._foil_e_content = $(element); 
+            $(this._foil_e_content).addClass("foil-slider fl_" + this._foil_instance_id);
 
             this._foil_classes_foils = [
                 [
@@ -83,6 +86,7 @@ class FoilSlider {
 
             this.createSliderViewport();
             this.createSliderDivElements();
+            this.createAnimations();
             this.turnListener();
             this.swipeListener();
             return true;
@@ -90,8 +94,6 @@ class FoilSlider {
             console.error(e.name + ': ' + e.message);
             return false;
         }
-        return true;
-
     }
 
     /**
@@ -100,7 +102,7 @@ class FoilSlider {
     createSliderViewport() {
         $(this._foil_e_content).append(
             $(this.createElement('div', 'foil-slider-viewport'))
-        ); this._foil_e_content_viewport = $('.foil-slider-viewport');
+        ); this._foil_e_content_viewport = $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport');
     }
 
     /**
@@ -110,27 +112,36 @@ class FoilSlider {
         let _this = this;
         let innerId = 0;
         let positions = ['-left', '-center', '-right'];
-
+         
         $(_this._foil_e_content).find("img,div").each(function (iteration, element) {
             if ($(element)[0].nodeName === 'IMG') {
                 innerId = ((iteration) + 1);
                 _this._foil_e_content_viewport.append(
-                    $(_this.createElement('div', 'foil-slide slide-' + innerId, 'foil-slide-id-' + innerId, ''))
-                );
-                $('#foil-slide-id-' + innerId).addClass(positions[iteration]);
-                $('#foil-slide-id-' + innerId).append($(element));
+                    $(_this.createElement('div', 'foil-slide slide-' + innerId, '', ''))
+                ); 
+                $('.fl_' + _this._foil_instance_id + ' .foil-slider-viewport .slide-'+innerId).addClass(positions[iteration]);
+                $('.fl_' + _this._foil_instance_id + ' .foil-slider-viewport .slide-'+innerId).append($(element)); 
             }
         });
     }
 
+    
+    createAnimations() {
+        let animationDuration = (this._foil_options.animationSeconds !== undefined) ? this._foil_options.animationSeconds : "1"; 
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-1').css({ "animation-duration":animationDuration + "s" });
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-2').css({ "animation-duration":animationDuration + "s" });
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-3').css({ "animation-duration":animationDuration + "s" });
+    }
+
+
     /**
      * Handle controls click's and move
+     * @call _this.moveRTL();
      */
     turnListener() {
         let _this = this;
-       
-        $('.turn').click(function (e) {
-            $('.turn').css({ "pointer-events": "none" }); 
+        $('.fl_' + this._foil_instance_id).next('.turn').click(function (e) {
+            $(this).css({ "pointer-events": "none" });
             _this.moveRTL();
         });
     }
@@ -139,8 +150,8 @@ class FoilSlider {
      * Handle mobile swipe rigth listener
      */
     swipeListener() {
-        var container = document.querySelector(".foil-slider"); 
-        container.addEventListener("touchstart", this.startTouch, false); 
+        var container = document.querySelector('.fl_' + this._foil_instance_id);
+        container.addEventListener("touchstart", this.startTouch, false);
         container.addEventListener("touchmove", this.moveTouch, false);
         container._this = this;
     }
@@ -152,15 +163,16 @@ class FoilSlider {
     startTouch(e) {
         this._foil_initialX = e.touches[0].clientX;
         this._foil_initialY = e.touches[0].clientY;
-        $('.foil-slider').css({"pointer-events":"none"});
+        $('.foil-slider').css({ "pointer-events": "none" });
     }
- 
+
     /**
-     * Event on swipe on mobilbe
+     * Event on swipe on mobile
+     * @call _this.moveRTL();
      * @param {event} e 
      * @returns 
      */
-    moveTouch(e) { 
+    moveTouch(e) {
         if (this._foil_initialX === null) {
             return;
         }
@@ -175,17 +187,17 @@ class FoilSlider {
         var diffX = this._foil_initialX - currentX;
         var diffY = this._foil_initialY - currentY;
 
-        if (Math.abs(diffX) > Math.abs(diffY)) { 
+        if (Math.abs(diffX) > Math.abs(diffY)) {
             // swipe right
             if (diffX < 0) {
-              e.currentTarget._this.moveRTL();               
+                e.currentTarget._this.moveRTL();
             }
-        }  
-       
+        }
+
         this._foil_initialX = null;
         this._foil_initialY = null;
-       
-        e.preventDefault(); 
+
+        e.preventDefault();
     }
 
     /**
@@ -194,11 +206,12 @@ class FoilSlider {
     moveRTL() {
         let _this = this;
         let classesFoilsPointer = (_this._foil_turn) - 1;
-
+        let animationDuration = (this._foil_options.animationSeconds !== undefined) ? this._foil_options.animationSeconds : "1";
+        let animationIntDuration = parseFloat(animationDuration) * 1000;  
         (async function () {
             _this.addClassAnimations();
 
-            await _this._foil_timer(1000);
+            await _this._foil_timer(animationIntDuration);
             _this.moveSlideFirst(classesFoilsPointer);
 
             await _this._foil_timer(1);
@@ -210,7 +223,7 @@ class FoilSlider {
             await _this._foil_timer(1);
             _this.removeClassAnimations();
             $('.turn').css({ "pointer-events": "all" });
-            $('.foil-slider').css({"pointer-events":"all"});
+            $('.foil-slider').css({ "pointer-events": "all" });
         }());
 
         if (_this._foil_turn > 2) {
@@ -225,7 +238,8 @@ class FoilSlider {
      * @param {int} classesFoilsPointer 
      */
     moveSlideFirst(classesFoilsPointer) {
-        $('.foil-slide.slide-1')
+        console.log($('.fl_' + this._foil_instance_id  ) )
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-1') 
             .removeClass(this._foil_classes_foils[classesFoilsPointer][0][0])
             .addClass(this._foil_classes_foils[classesFoilsPointer][0][1]);
     }
@@ -235,7 +249,7 @@ class FoilSlider {
      * @param {int} classesFoilsPointer 
      */
     moveSlideSecond(classesFoilsPointer) {
-        $('.foil-slide.slide-2')
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-2')
             .removeClass(this._foil_classes_foils[classesFoilsPointer][1][0])
             .addClass(this._foil_classes_foils[classesFoilsPointer][1][1]);
     }
@@ -245,7 +259,7 @@ class FoilSlider {
      * @param {int} classesFoilsPointer 
      */
     moveSlideThird(classesFoilsPointer) {
-        $('.foil-slide.slide-3')
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-3')
             .removeClass(this._foil_classes_foils[classesFoilsPointer][2][0])
             .addClass(this._foil_classes_foils[classesFoilsPointer][2][1]);
     }
@@ -254,16 +268,16 @@ class FoilSlider {
      * Add animations css
      */
     addClassAnimations() {
-        $('.foil-slide.-left').addClass('-play-1');
-        $('.foil-slide.-center').addClass('-play-2');
-        $('.foil-slide.-right').addClass('-play-3');
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .foil-slide.-left').addClass('-play-1');
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .foil-slide.-center').addClass('-play-2');
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .foil-slide.-right').addClass('-play-3'); 
     }
 
     /**
      * Remove animations css
      */
     removeClassAnimations() {
-        $('.foil-slide')
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .foil-slide')
             .removeClass('-play-1')
             .removeClass('-play-2')
             .removeClass('-play-3');
@@ -283,5 +297,16 @@ class FoilSlider {
         let attributeFiltered = (attribute != undefined) ? attribute : '';
         let contentFiltered = (content != undefined) ? content : '';
         return '<' + type + ' class="' + className + '" ' + idFiltered + ' ' + attributeFiltered + '>' + contentFiltered + '</' + type + '>'
+    }
+
+    makeid(length) {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+          result += characters.charAt(Math.floor(Math.random() * 
+     charactersLength));
+       }
+       return result;
     }
 }
