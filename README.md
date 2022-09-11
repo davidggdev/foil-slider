@@ -20,8 +20,8 @@ side effects is not assured.
 
 # Updates
 
-![](https://img.shields.io/badge/UPDATE-2022/09/11_20:22-red?style=for-the-badge) 
 ![](https://img.shields.io/badge/Alpha_1_wip-5c7219?style=for-the-badge&logo=esbuild&labelColor=1e485a&logoColor=white) 
+![](https://img.shields.io/badge/UPDATE-2022/09/11_20:22-red?style=for-the-badge) 
  
 Added options array with transition speed
 Added text alt in controls
@@ -30,9 +30,8 @@ Refactorized controls and div elements needed
 [Example online](https://davidggdev.es/workbench/foil/)
 
 ---
-
-![](https://img.shields.io/badge/UPDATE-2022/09/11-red?style=for-the-badge) 
 ![](https://img.shields.io/badge/Alpha_1_wip-5c7219?style=for-the-badge&logo=esbuild&labelColor=1e485a&logoColor=white) 
+![](https://img.shields.io/badge/UPDATE-2022/09/11-red?style=for-the-badge) 
  
 ![snapshot](http://davidggdev.es/images/snapshot_04.jpg)
 
@@ -40,8 +39,9 @@ Add single instance updated!
  
 ---
 
-![](https://img.shields.io/badge/UPDATE-2022/09/11-red?style=for-the-badge) 
 ![](https://img.shields.io/badge/Alpha_1_init-196672?style=for-the-badge&logo=esbuild&labelColor=1e485a&logoColor=white) 
+![](https://img.shields.io/badge/UPDATE-2022/09/11-red?style=for-the-badge) 
+
  
 Setup proyect and repository
 
