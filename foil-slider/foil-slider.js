@@ -43,20 +43,24 @@ class FoilSlider {
     _foil_initialX = null;
     /** Position Y on touch */
     _foil_initialY = null;
-
+    /** Own instance */
     _foil_instance_id = "";
+    /** Controls content */
+    _foil_e_content_controls = null;
+    /** Specch text shows */
+    _foil_slide_speech_turn = 1;
 
     /**
      * Initiates and calls the creation of elements necessary to execute the slider.
      * @param {object} options Collection of available options 
      * @returns bool
      */
-    constructor(element,options) {
+    constructor(element, options) {
         try {
             this._foil_timer = ms => new Promise(res => setTimeout(res, ms));
             this._foil_options = options;
-            this._foil_instance_id = this.makeid(5);          
-            this._foil_e_content = $(element); 
+            this._foil_instance_id = this.makeid(5);
+            this._foil_e_content = $(element);
             $(this._foil_e_content).addClass("foil-slider fl_" + this._foil_instance_id);
 
             this._foil_classes_foils = [
@@ -103,6 +107,15 @@ class FoilSlider {
         $(this._foil_e_content).append(
             $(this.createElement('div', 'foil-slider-viewport'))
         ); this._foil_e_content_viewport = $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport');
+        $(this._foil_e_content).append(
+            $(this.createElement('div', 'foil-slider-controls'))
+        ); this._foil_e_content_controls = $('.fl_' + this._foil_instance_id + ' .foil-slider-controls');
+        $(this._foil_e_content_controls).append(
+            $(this.createElement('div', 'foil-slider-turn'))
+        ); this._foil_e_content_turn = $('.fl_' + this._foil_instance_id + ' .foil-slider-turn');
+        $(this._foil_e_content_controls).append(
+            $(this.createElement('div', 'foil-slider-text'))
+        ); this._foil_e_content_text = $('.fl_' + this._foil_instance_id + ' .foil-slider-text');
     }
 
     /**
@@ -112,27 +125,33 @@ class FoilSlider {
         let _this = this;
         let innerId = 0;
         let positions = ['-left', '-center', '-right'];
-         
+
         $(_this._foil_e_content).find("img,div").each(function (iteration, element) {
             if ($(element)[0].nodeName === 'IMG') {
                 innerId = ((iteration) + 1);
                 _this._foil_e_content_viewport.append(
                     $(_this.createElement('div', 'foil-slide slide-' + innerId, '', ''))
-                ); 
-                $('.fl_' + _this._foil_instance_id + ' .foil-slider-viewport .slide-'+innerId).addClass(positions[iteration]);
-                $('.fl_' + _this._foil_instance_id + ' .foil-slider-viewport .slide-'+innerId).append($(element)); 
+                );
+                $('.fl_' + _this._foil_instance_id + ' .foil-slider-viewport .slide-' + innerId).addClass(positions[iteration]);
+                $('.fl_' + _this._foil_instance_id + ' .foil-slider-viewport .slide-' + innerId).append($(element));
+               
+                $('.fl_' + _this._foil_instance_id + ' .foil-slider-controls .foil-slider-text').append(
+                    $(_this.createElement('div', 'foil-slider-speech slide-' + innerId, '', '', $(element).attr('alt')))
+                );
+                $('.foil-slider-speech.slide-2').addClass('-active');
             }
         });
     }
 
-    
+    /**
+     * Add animation to slide
+     */
     createAnimations() {
-        let animationDuration = (this._foil_options.animationSeconds !== undefined) ? this._foil_options.animationSeconds : "1"; 
-        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-1').css({ "animation-duration":animationDuration + "s" });
-        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-2').css({ "animation-duration":animationDuration + "s" });
-        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-3').css({ "animation-duration":animationDuration + "s" });
+        let animationDuration = (this._foil_options.animationSeconds !== undefined) ? this._foil_options.animationSeconds : "1";
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-1').css({ "animation-duration": animationDuration + "s" });
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-2').css({ "animation-duration": animationDuration + "s" });
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-3').css({ "animation-duration": animationDuration + "s" });
     }
-
 
     /**
      * Handle controls click's and move
@@ -140,7 +159,7 @@ class FoilSlider {
      */
     turnListener() {
         let _this = this;
-        $('.fl_' + this._foil_instance_id).next('.turn').click(function (e) {
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-controls .foil-slider-turn').click(function (e) {
             $(this).css({ "pointer-events": "none" });
             _this.moveRTL();
         });
@@ -199,7 +218,7 @@ class FoilSlider {
 
         e.preventDefault();
     }
-
+    
     /**
      * Active RTL moveRTL
      */
@@ -207,7 +226,8 @@ class FoilSlider {
         let _this = this;
         let classesFoilsPointer = (_this._foil_turn) - 1;
         let animationDuration = (this._foil_options.animationSeconds !== undefined) ? this._foil_options.animationSeconds : "1";
-        let animationIntDuration = parseFloat(animationDuration) * 1000;  
+        let animationIntDuration = parseFloat(animationDuration) * 1000;
+        
         (async function () {
             _this.addClassAnimations();
 
@@ -222,8 +242,16 @@ class FoilSlider {
 
             await _this._foil_timer(1);
             _this.removeClassAnimations();
-            $('.turn').css({ "pointer-events": "all" });
-            $('.foil-slider').css({ "pointer-events": "all" });
+            $('.foil-slider-turn').css({ "pointer-events": "all" });
+            $('.foil-slider').css({ "pointer-events": "all" }); 
+
+            // Move slide text
+            $('.foil-slider-speech').removeClass('-active');  
+            $('.fl_' + _this._foil_instance_id + ' .foil-slider-controls .foil-slider-text .foil-slider-speech.slide-' + _this._foil_slide_speech_turn ).addClass('-active'); 
+            _this._foil_slide_speech_turn--;
+            if(_this._foil_slide_speech_turn<1){
+                _this._foil_slide_speech_turn = 3;
+            } 
         }());
 
         if (_this._foil_turn > 2) {
@@ -238,8 +266,7 @@ class FoilSlider {
      * @param {int} classesFoilsPointer 
      */
     moveSlideFirst(classesFoilsPointer) {
-        console.log($('.fl_' + this._foil_instance_id  ) )
-        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-1') 
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .slide-1')
             .removeClass(this._foil_classes_foils[classesFoilsPointer][0][0])
             .addClass(this._foil_classes_foils[classesFoilsPointer][0][1]);
     }
@@ -270,7 +297,7 @@ class FoilSlider {
     addClassAnimations() {
         $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .foil-slide.-left').addClass('-play-1');
         $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .foil-slide.-center').addClass('-play-2');
-        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .foil-slide.-right').addClass('-play-3'); 
+        $('.fl_' + this._foil_instance_id + ' .foil-slider-viewport .foil-slide.-right').addClass('-play-3');
     }
 
     /**
@@ -299,14 +326,19 @@ class FoilSlider {
         return '<' + type + ' class="' + className + '" ' + idFiltered + ' ' + attributeFiltered + '>' + contentFiltered + '</' + type + '>'
     }
 
+    /**
+     * Generate a random id
+     * @param {int} length 
+     * @returns 
+     */
     makeid(length) {
-        var result           = '';
-        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         var charactersLength = characters.length;
-        for ( var i = 0; i < length; i++ ) {
-          result += characters.charAt(Math.floor(Math.random() * 
-     charactersLength));
-       }
-       return result;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+        }
+        return result;
     }
 }

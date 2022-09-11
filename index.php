@@ -14,25 +14,13 @@
 </head>
 
 <body>
-    <div class="p-center-all a">
+    <div class="p-center-all">
         <div class="my-slider" foil-slider>
-            <img src="cyberpunk.png" alt=""/>
-            <img src="mediaval.png" alt=""/>
-            <img src="zombies.png" alt=""/> 
-        </div>
-
-        <div class="turn"></div>
-    </div>
-
-    <div class="p-center-all b">
-        <div class="my-slider-2" foil-slider>
-            <img src="cyberpunk.png" alt=""/>
-            <img src="mediaval.png" alt=""/>
-            <img src="zombies.png" alt=""/> 
-        </div>
-
-        <div class="turn"></div>
-    </div>
+            <img src="cyberpunk.png" alt="This game is set in a not too distant dystopian future in which technology has become part of all areas of society."/>
+            <img src="mediaval.png" alt="Game developed in the mythical medieval fantasy dungeon crawler setting that we all love and love."/>
+            <img src="zombies.png" alt="Classic setting of a post-apocalyptic world in which the dead have taken control of the planet."/> 
+        </div> 
+    </div> 
 </body>
 
 </html>
